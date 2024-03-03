@@ -51,19 +51,19 @@ public class Car implements Vehicle{
     public void setModelName(String prevName, String newName) throws NoSuchModelNameException, DuplicateModelNameException {
         if(!prevName.equals(newName)){
             validateDuplicateModel(newName);
-            findModelOrThrowException(prevName).setName(newName);
+            findModelOrThrow(prevName).setName(newName);
         }
     }
 
     @Override
     public BigDecimal getModelPrice(String modelName) throws NoSuchModelNameException {
-        return findModelOrThrowException(modelName).getPrice();
+        return findModelOrThrow(modelName).getPrice();
     }
 
     @Override
     public void setModelPrice(String modelName, BigDecimal newPrice) throws NoSuchModelNameException {
         priceValidator.validate(newPrice);
-        findModelOrThrowException(modelName).setPrice(newPrice);
+        findModelOrThrow(modelName).setPrice(newPrice);
     }
 
     @Override
@@ -75,16 +75,27 @@ public class Car implements Vehicle{
     }
 
     @Override
-    public void deleteModel(String modelName, Long modelPrice){
-        //todo метод удаления модели с заданным именем и её цены, использовать методы System.arraycopy, Arrays.copyOf(),
+    public void deleteModel(String modelName) throws NoSuchModelNameException {
+        for (int i = 0; i < models.length; i++) {
+            if (models[i].getName().equals(modelName)) {
+                Model[] copyModels = Arrays.copyOf(models, models.length - 1);
+                if (i != models.length - 1) {
+                    System.arraycopy(models, i + 1, copyModels, i, copyModels.length - i);
+                }
+                models = copyModels;
+                return;
+            }
+        }
+        throw new NoSuchModelNameException();
     }
+
 
     @Override
     public Integer getModelCount(){
         return models.length;
     }
 
-    private Model findModelOrThrowException(String modelName) throws NoSuchModelNameException {
+    private Model findModelOrThrow(String modelName) throws NoSuchModelNameException {
         Model model = findModelOrReturnNull(modelName);
         if(model == null){
             throw new NoSuchModelNameException();

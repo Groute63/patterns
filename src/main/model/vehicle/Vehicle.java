@@ -4,7 +4,6 @@ import main.model.exception.DuplicateModelNameException;
 import main.model.exception.NoSuchModelNameException;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 public interface Vehicle extends Cloneable{
     String getBrand();
@@ -23,7 +22,7 @@ public interface Vehicle extends Cloneable{
 
     void addModel(String modelName, BigDecimal modelPrice) throws DuplicateModelNameException;
 
-    void deleteModel(String modelName, Long modelPrice);
+    void deleteModel(String modelName) throws NoSuchModelNameException;
 
     Integer getModelCount();
     Vehicle clone();

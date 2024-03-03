@@ -102,8 +102,13 @@ public class Bike implements Vehicle{
     }
 
     @Override
-    public void deleteModel(String modelName, Long modelPrice){
-        //todo метод удаления модели с заданным именем и её цены, использовать методы System.arraycopy, Arrays.copyOf(),
+    public void deleteModel(String modelName) throws NoSuchModelNameException {
+        Model model = findModelOrThrow(modelName);
+        Model nextModel = model.getNext();
+        Model prevModel = model.getPrev();
+
+        prevModel.setNext(nextModel);
+        prevModel.setPrev(nextModel);
     }
 
     @Override
