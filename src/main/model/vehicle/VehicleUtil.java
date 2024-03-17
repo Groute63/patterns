@@ -67,4 +67,8 @@ public class VehicleUtil{
             System.out.println(price);
         }
     }
+
+    public static SynchronizedVehicle synchronizedVehicle(Vehicle vehicle) {
+        return new SynchronizedVehicle(vehicle);
+    }
 }
