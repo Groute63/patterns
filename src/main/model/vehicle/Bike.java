@@ -109,6 +109,7 @@ public class Bike implements Vehicle{
 
         prevModel.setNext(nextModel);
         prevModel.setPrev(nextModel);
+        size--;
     }
 
     @Override
@@ -146,14 +147,18 @@ public class Bike implements Vehicle{
     @Override
     public Bike clone(){
         try {
-            Bike clonedBikes = new Bike(this.getBrand(),0);
+            Bike clonedBikes = (Bike) super.clone();
             Model model = head.getNext();
+            clonedBikes.head = new Model();
+            clonedBikes.head.setPrev(clonedBikes.head);
+            clonedBikes.head.setNext(clonedBikes.head);
+            clonedBikes.size = 0;
             while (model != head){
                 clonedBikes.addModel(model);
                 model = model.getNext();
             }
             return clonedBikes;
-        } catch (DuplicateModelNameException e) {
+        } catch (DuplicateModelNameException | CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
     }
@@ -204,8 +209,8 @@ public class Bike implements Vehicle{
         }
 
         @Override
-        public Model clone(){
-            return new Model(this.getName(),this.getPrice());
+        public Model clone() throws CloneNotSupportedException {
+            return (Model) super.clone();
         }
     }
 }

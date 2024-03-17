@@ -8,40 +8,40 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Car implements Vehicle{
+public class Car implements Vehicle {
     private PriceValidator priceValidator = new PriceValidator();
     private String brand;
     private Model[] models;
 
-    public Car(String brand, Integer modelCount){
+    public Car(String brand, Integer modelCount) {
         this.brand = brand;
         this.models = new Model[modelCount];
         fillModelList();
     }
 
     @Override
-    public String getBrand(){
+    public String getBrand() {
         return brand;
     }
 
     @Override
-    public void setBrand(String brand){
+    public void setBrand(String brand) {
         this.brand = brand;
     }
 
     @Override
-    public String[] getModelNames(){
+    public String[] getModelNames() {
         String[] modelNames = new String[models.length];
-        for(int i = 0; i < models.length; i++){
+        for (int i = 0; i < models.length; i++) {
             modelNames[i] = models[i].getName();
         }
         return modelNames;
     }
 
     @Override
-    public BigDecimal[] getModelPrices(){
+    public BigDecimal[] getModelPrices() {
         BigDecimal[] modelPrices = new BigDecimal[models.length];
-        for(int i = 0; i < models.length; i++){
+        for (int i = 0; i < models.length; i++) {
             modelPrices[i] = models[i].getPrice();
         }
         return modelPrices;
@@ -49,7 +49,7 @@ public class Car implements Vehicle{
 
     @Override
     public void setModelName(String prevName, String newName) throws NoSuchModelNameException, DuplicateModelNameException {
-        if(!prevName.equals(newName)){
+        if (!prevName.equals(newName)) {
             validateDuplicateModel(newName);
             findModelOrThrow(prevName).setName(newName);
         }
@@ -91,21 +91,21 @@ public class Car implements Vehicle{
 
 
     @Override
-    public Integer getModelCount(){
+    public Integer getModelCount() {
         return models.length;
     }
 
     private Model findModelOrThrow(String modelName) throws NoSuchModelNameException {
         Model model = findModelOrReturnNull(modelName);
-        if(model == null){
+        if (model == null) {
             throw new NoSuchModelNameException();
         }
         return model;
     }
 
-    private Model findModelOrReturnNull(String modelName){
-        for(Model model: models){
-            if(model.getName().equals(modelName)){
+    private Model findModelOrReturnNull(String modelName) {
+        for (Model model : models) {
+            if (model.getName().equals(modelName)) {
                 return model;
             }
         }
@@ -113,48 +113,56 @@ public class Car implements Vehicle{
     }
 
     private void validateDuplicateModel(String modelName) throws DuplicateModelNameException {
-        if(findModelOrReturnNull(modelName) != null){
+        if (findModelOrReturnNull(modelName) != null) {
             throw new DuplicateModelNameException();
         }
     }
 
-    private void fillModelList(){
-         for(int i = 0; i < models.length; i++){
-             if(models[i] == null){
-                 models[i] = new Model("model" + i, new BigDecimal(new Random().nextInt(0,100)));
-             }
-         }
+    private void fillModelList() {
+        for (int i = 0; i < models.length; i++) {
+            if (models[i] == null) {
+                models[i] = new Model("model" + i, new BigDecimal(new Random().nextInt(0, 100)));
+            }
+        }
     }
 
-    private void setModels(Model[] models){
+    private void setModels(Model[] models) {
         this.models = models;
     }
 
     @Override
-    public Car clone(){
-        Car clonedCars = new Car(this.getBrand(),0);
-        Model[] sampleModels = this.models;
-        Model[] clonedModels = new Model[sampleModels.length];
-        for(int i = 0; i< sampleModels.length; i++){
-            clonedModels[i] = sampleModels[i].clone();
+    public Car clone() {
+        Car clonedCars = null;
+        try {
+            clonedCars = (Car) super.clone();
+            Model[] sampleModels = this.models;
+            Model[] clonedModels = new Model[sampleModels.length];
+            for (int i = 0; i < sampleModels.length; i++) {
+                clonedModels[i] = sampleModels[i].clone();
+            }
+            clonedCars.setModels(clonedModels);
+            return clonedCars;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
         }
-        clonedCars.setModels(clonedModels);
-        return clonedCars;
     }
 
-    private class Model implements Cloneable{
+    private class Model implements Cloneable {
         private String name;
         private BigDecimal price;
 
         public String getName() {
             return name;
         }
+
         public void setName(String name) {
             this.name = name;
         }
+
         public BigDecimal getPrice() {
             return price;
         }
+
         public void setPrice(BigDecimal price) {
             this.price = price;
         }
@@ -165,8 +173,8 @@ public class Car implements Vehicle{
         }
 
         @Override
-        public Model clone(){
-            return new Model(this.getName(),this.getPrice());
+        public Model clone() throws CloneNotSupportedException {
+            return (Model) super.clone();
         }
     }
 }
