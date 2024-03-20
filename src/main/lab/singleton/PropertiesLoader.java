@@ -7,7 +7,7 @@ import java.util.Properties;
 public class PropertiesLoader {
     private static volatile PropertiesLoader instance;
     private static Properties properties;
-    private final static String PROPERTIES_FILE_NAME = "config2.properties";
+    private final static String PROPERTIES_FILE_NAME = "config.properties";
 
     private PropertiesLoader(){}
 
