@@ -1,5 +1,6 @@
 package main.model.vehicle;
 
+import main.lab2.visitor.Visitor;
 import main.model.exception.DuplicateModelNameException;
 import main.model.exception.NoSuchModelNameException;
 import main.model.validator.PriceValidator;
@@ -161,6 +162,11 @@ public class Bike implements Vehicle{
         } catch (DuplicateModelNameException | CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     private class Model {

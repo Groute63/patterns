@@ -1,11 +1,13 @@
 package main.model.vehicle;
 
+import main.lab2.visitor.Visitor;
 import main.model.exception.DuplicateModelNameException;
 import main.model.exception.NoSuchModelNameException;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public interface Vehicle extends Cloneable{
+public interface Vehicle extends Cloneable, Serializable {
     String getBrand();
 
     void setBrand(String brand);
@@ -26,4 +28,6 @@ public interface Vehicle extends Cloneable{
 
     Integer getModelCount();
     Vehicle clone();
+    void accept(Visitor visitor);
+
 }

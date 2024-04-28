@@ -4,8 +4,13 @@ import main.lab.factorymethod.BikeFactory;
 import main.lab.factorymethod.CarFactory;
 import main.lab.factorymethod.FactoryType;
 import main.lab.factorymethod.TransportFactory;
+import main.lab2.chain.VehicleWriter;
+import main.lab2.command.VehicleColumnWriteCommand;
+import main.lab2.command.VehicleCommand;
+import main.lab2.command.VehicleRowWriteCommand;
 import main.model.exception.DuplicateModelNameException;
 
+import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -13,6 +18,7 @@ public class VehicleUtil{
     private static TransportFactory activeFactory = new CarFactory();
     private static TransportFactory carFactory = new CarFactory();
     private static TransportFactory bikeFactory = new BikeFactory();
+    private static VehicleCommand vehicleCommand = new VehicleRowWriteCommand();
 
     public static void setTransportFactory(FactoryType factory){
         switch (factory){
@@ -23,6 +29,14 @@ public class VehicleUtil{
                 activeFactory = bikeFactory;
             }
         }
+    }
+
+    public static void setVehicleCommand(VehicleCommand vehicleCommand) {
+        VehicleUtil.vehicleCommand = vehicleCommand;
+    }
+
+    public static void printInStream(Vehicle vehicle, OutputStreamWriter outputStream) {
+        vehicleCommand.execute(vehicle, outputStream);
     }
 
     public static Vehicle createInstance(String brand, Integer modelCount) throws DuplicateModelNameException {

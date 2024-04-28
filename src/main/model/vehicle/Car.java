@@ -1,15 +1,19 @@
 package main.model.vehicle;
 
+import main.lab2.visitor.Visitor;
 import main.model.exception.DuplicateModelNameException;
 import main.model.exception.NoSuchModelNameException;
 import main.model.validator.PriceValidator;
 
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.StringJoiner;
 
-public class Car implements Vehicle {
-    private PriceValidator priceValidator = new PriceValidator();
+public class Car implements Vehicle, Iterable<Car.Model> {
+    private transient PriceValidator priceValidator = new PriceValidator();
     private String brand;
     private Model[] models;
 
@@ -147,7 +151,12 @@ public class Car implements Vehicle {
         }
     }
 
-    private class Model implements Cloneable {
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    public class Model implements Cloneable, Serializable {
         private String name;
         private BigDecimal price;
 
@@ -175,6 +184,74 @@ public class Car implements Vehicle {
         @Override
         public Model clone() throws CloneNotSupportedException {
             return (Model) super.clone();
+        }
+
+        @Override
+        public String toString() {
+            return new StringJoiner(", ", Model.class.getSimpleName() + "[", "]")
+                    .add("Название = '" + name + "'")
+                    .add("Цена = " + price)
+                    .toString();
+        }
+    }
+
+    @Override
+    public Iterator<Model> iterator() {
+        return new CarIterator(models);
+    }
+
+    static class CarIterator implements Iterator<Model> {
+
+        int current = 0;
+        Model[] models;
+
+        protected CarIterator(Model[] models) {
+            this.models = models;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current < models.length;
+        }
+
+        @Override
+        public Model next() {
+            return models[current++];
+        }
+    }
+
+    public Memento createMemento() {
+        Memento memento = new Memento();
+        memento.setCar(this);
+        return memento;
+    }
+
+    public void setMemento(Memento memento)  {
+        Car state = memento.getCar();
+        this.brand = state.brand;
+        this.models = state.models;
+    }
+
+    public static class Memento {
+        private final ByteArrayOutputStream memory = new ByteArrayOutputStream();
+
+        public void setCar(Car car) {
+            this.memory.reset();
+            try(ObjectOutputStream oIS = new ObjectOutputStream(memory)) {
+                oIS.writeObject(car);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        public Car getCar() {
+            byte[] byteArray = memory.toByteArray();
+            try (ByteArrayInputStream byteArrayInput = new ByteArrayInputStream(byteArray);
+                 ObjectInputStream objectInput = new ObjectInputStream(byteArrayInput)) {
+                return (Car) objectInput.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                throw new RuntimeException(ex.getMessage());
+            }
         }
     }
 }
