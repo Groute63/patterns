@@ -1,6 +1,6 @@
 package main.model.vehicle;
 
-import main.lab2.visitor.Visitor;
+import main.lab3.visitor.Visitor;
 import main.model.exception.DuplicateModelNameException;
 import main.model.exception.NoSuchModelNameException;
 

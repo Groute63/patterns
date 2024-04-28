@@ -1,7 +1,9 @@
-package main.model.vehicle;
+package main.lab2.decorator;
 
+import main.lab3.visitor.Visitor;
 import main.model.exception.DuplicateModelNameException;
 import main.model.exception.NoSuchModelNameException;
+import main.model.vehicle.Vehicle;
 
 import java.math.BigDecimal;
 
@@ -65,5 +67,10 @@ public class SynchronizedVehicle implements Vehicle {
     @Override
     public synchronized Vehicle clone() {
         return vehicle.clone();
+    }
+
+    @Override
+    public synchronized void accept(Visitor visitor) {
+        vehicle.accept(visitor);
     }
 }

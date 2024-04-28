@@ -4,10 +4,9 @@ import main.lab.factorymethod.BikeFactory;
 import main.lab.factorymethod.CarFactory;
 import main.lab.factorymethod.FactoryType;
 import main.lab.factorymethod.TransportFactory;
-import main.lab2.chain.VehicleWriter;
-import main.lab2.command.VehicleColumnWriteCommand;
-import main.lab2.command.VehicleCommand;
-import main.lab2.command.VehicleRowWriteCommand;
+import main.lab2.decorator.SynchronizedVehicle;
+import main.lab3.command.VehicleCommand;
+import main.lab3.command.VehicleRowWriteCommand;
 import main.model.exception.DuplicateModelNameException;
 
 import java.io.OutputStreamWriter;

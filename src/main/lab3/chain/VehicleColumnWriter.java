@@ -1,26 +1,25 @@
-package main.lab2.chain;
+package main.lab3.chain;
 
-import main.lab2.command.VehicleRowWriteCommand;
+import main.lab3.command.VehicleColumnWriteCommand;
 import main.model.exception.VehicleWriterException;
 import main.model.vehicle.Vehicle;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class VehicleRowWriter extends VehicleWriter {
-    private final VehicleRowWriteCommand vehicleRowWriteCommand = new VehicleRowWriteCommand();
-    private final int VEHICLE_COUNT = 3 ;
+public class VehicleColumnWriter extends VehicleWriter {
+    private static final VehicleColumnWriteCommand vehicleColumnWriteCommand = new VehicleColumnWriteCommand();
+    private final int VEHICLE_COUNT = 3;
 
-    public VehicleRowWriter(String path) {
+    public VehicleColumnWriter(String path) {
         super(path);
     }
 
-
     @Override
     public boolean writeToFile(Vehicle vehicle) throws VehicleWriterException {
-        if (vehicle.getModelCount() <= VEHICLE_COUNT) {
+        if (vehicle.getModelCount() > VEHICLE_COUNT) {
             try (FileWriter out = new FileWriter(path)) {
-                vehicleRowWriteCommand.execute(vehicle, out);
+                vehicleColumnWriteCommand.execute(vehicle, out);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

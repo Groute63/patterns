@@ -1,4 +1,4 @@
-package main.lab2.command;
+package main.lab3.command;
 
 import main.model.vehicle.Vehicle;
 

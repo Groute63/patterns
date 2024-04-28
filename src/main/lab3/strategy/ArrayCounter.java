@@ -1,4 +1,4 @@
-package main.lab2.strategy;
+package main.lab3.strategy;
 
 import java.io.FileInputStream;
 import java.io.IOException;

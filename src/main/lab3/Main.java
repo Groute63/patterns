@@ -1,14 +1,13 @@
-package main;
+package main.lab3;
 
-import main.lab2.chain.VehicleColumnWriter;
-import main.lab2.chain.VehicleRowWriter;
-import main.lab2.chain.VehicleWriter;
-import main.lab2.command.VehicleColumnWriteCommand;
-import main.lab2.command.VehicleCommand;
-import main.lab2.strategy.ArrayCounter;
-import main.lab2.strategy.ArrayCountingStrategy;
-import main.lab2.strategy.HashMapCountingStrategy;
-import main.lab2.visitor.PrintVisitor;
+import main.lab3.chain.VehicleColumnWriter;
+import main.lab3.chain.VehicleRowWriter;
+import main.lab3.chain.VehicleWriter;
+import main.lab3.command.VehicleColumnWriteCommand;
+import main.lab3.strategy.ArrayCounter;
+import main.lab3.strategy.ArrayCountingStrategy;
+import main.lab3.strategy.HashMapCountingStrategy;
+import main.lab3.visitor.PrintVisitor;
 import main.model.exception.DuplicateModelNameException;
 import main.model.exception.NoSuchModelNameException;
 import main.model.exception.VehicleWriterException;

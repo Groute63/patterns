@@ -1,4 +1,4 @@
-package main.lab2.chain;
+package main.lab3.chain;
 
 import main.model.exception.VehicleWriterException;
 import main.model.vehicle.Vehicle;

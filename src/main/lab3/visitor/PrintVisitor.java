@@ -1,7 +1,7 @@
-package main.lab2.visitor;
+package main.lab3.visitor;
 
-import main.lab2.command.VehicleColumnWriteCommand;
-import main.lab2.command.VehicleRowWriteCommand;
+import main.lab3.command.VehicleColumnWriteCommand;
+import main.lab3.command.VehicleRowWriteCommand;
 import main.model.vehicle.Bike;
 import main.model.vehicle.Car;
 import main.model.vehicle.VehicleUtil;

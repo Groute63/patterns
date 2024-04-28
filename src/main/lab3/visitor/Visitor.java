@@ -1,4 +1,4 @@
-package main.lab2.visitor;
+package main.lab3.visitor;
 
 import main.model.vehicle.Bike;
 import main.model.vehicle.Car;
