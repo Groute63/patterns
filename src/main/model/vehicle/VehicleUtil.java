@@ -7,6 +7,9 @@ import main.lab.factorymethod.TransportFactory;
 import main.lab2.decorator.SynchronizedVehicle;
 import main.lab3.command.VehicleCommand;
 import main.lab3.command.VehicleRowWriteCommand;
+import main.lab4.dao.ParserDao;
+import main.lab4.dao.ParserDaoFactory;
+import main.lab4.dao.VehicleTextParserFactory;
 import main.model.exception.DuplicateModelNameException;
 
 import java.io.OutputStreamWriter;
@@ -19,6 +22,9 @@ public class VehicleUtil{
     private static TransportFactory bikeFactory = new BikeFactory();
     private static VehicleCommand vehicleCommand = new VehicleRowWriteCommand();
 
+    private static ParserDaoFactory<Vehicle> daoFactory = new VehicleTextParserFactory();
+
+
     public static void setTransportFactory(FactoryType factory){
         switch (factory){
             case CAR_FACTORY -> {
@@ -28,6 +34,14 @@ public class VehicleUtil{
                 activeFactory = bikeFactory;
             }
         }
+    }
+
+    public static ParserDao<Vehicle> createDao() {
+        return daoFactory.createDao();
+    }
+
+    public static void setDaoFactory(ParserDaoFactory<Vehicle> daoFactory) {
+        VehicleUtil.daoFactory = daoFactory;
     }
 
     public static void setVehicleCommand(VehicleCommand vehicleCommand) {

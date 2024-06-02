@@ -200,7 +200,16 @@ public class Car implements Vehicle, Iterable<Car.Model> {
         return new CarIterator(models);
     }
 
-    static class CarIterator implements Iterator<Model> {
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Car.class.getSimpleName() + "[", "]")
+                .add("Марка = '" + brand + "'")
+                .add("Линейка моделей (" + models.length + ") = " + Arrays.toString(models))
+                .toString();
+    }
+
+
+    static class CarIterator implements Iterator<Model>, Serializable {
 
         int current = 0;
         Model[] models;
