@@ -5,11 +5,14 @@ import main.model.exception.DuplicateModelNameException;
 import main.model.exception.NoSuchModelNameException;
 import main.model.validator.PriceValidator;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.StringJoiner;
 
 public class Bike implements Vehicle{
-    private PriceValidator priceValidator = new PriceValidator();
+    private transient PriceValidator priceValidator = new PriceValidator();
     private String brand;
     private Model head = new Model();
     private int size = 0;
@@ -24,6 +27,21 @@ public class Bike implements Vehicle{
         for(int i = 0; i < modelCount; i++){
             createModel(new Model("model" + i, new BigDecimal(new Random().nextInt(0,100))));
         }
+    }
+
+    @Override
+    public String toString() {
+        Model p = head.next;
+        Model[] models = new Model[size];
+        for (int i = 0; i < models.length; i++) {
+            models[i] = p;
+            p = p.next;
+        }
+        StringJoiner sj = new StringJoiner(", ", Bike.class.getSimpleName() + "[", "]")
+                .add("Марка = '" + brand + "'")
+                .add("Линейка моделей (" + size + ") = " + Arrays.toString(models));
+        sj.add(Arrays.toString(models));
+        return sj.toString();
     }
 
     @Override
@@ -169,7 +187,7 @@ public class Bike implements Vehicle{
         visitor.visit(this);
     }
 
-    private class Model {
+    private class Model implements Serializable {
         private String name;
         private BigDecimal price;
         private Model prev = null;
